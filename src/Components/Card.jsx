@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useContext } from "react"
+import { Link } from "react-router-dom"
+import { FavsContext } from "../Context/FavsContext"
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import "../style/Style.css"
 
 
 const Card = ({ name, username, id }) => {
+  const { state, dispatch } = useContext(FavsContext);
 
-  const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
-  }
+  const addFav = () => {
+    dispatch({ type: 'AGREGAR', payload: { name, username, id } })
+  };
+
+  const quitar = () => {
+    dispatch({ type: 'QUITAR', payload: { name, username, id } })
+  };
+
 
   return (
     <div className="card">
-        {/* En cada card deberan mostrar en name - username y el id */}
+      <img src="./images/doctor.jpg" />
+      <h5> {name}</h5>
+      <p>{username}</p>
 
-        {/* No debes olvidar que la Card a su vez servira como Link hacia la pagina de detalle */}
+      {state.data.some((element) => element.id === id) ? (
+        <Link onClick={quitar} className="favButton">
+          <FavoriteIcon className="imgperfil" alt="boton like" />
+        </Link>
+      ): (
+        <Link onClick={addFav} className="favButton">
+          <FavoriteBorderIcon className="imgperfil" alt="boton deslike" />
+        </Link>
+      )}
 
-        {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
-        <button onClick={addFav} className="favButton">Add fav</button>
+      <Link to={`/users/${id}`} >
+        <LibraryAddIcon className="imgperfil" alt="boton plus" style={{color: "rgb(46, 115, 220)"}} />
+      </Link>
+
+    
+
     </div>
   );
 };

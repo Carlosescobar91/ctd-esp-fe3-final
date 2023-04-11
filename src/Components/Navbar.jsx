@@ -1,16 +1,46 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { ModoDarkContext } from '../Context/ModoDarkContext';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import "../Style/Style.css"
+import InputIcon from '@mui/icons-material/Input';
 
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
 
 const Navbar = () => {
 
+  const { isModoOscuro, setIsModoOscuro } = useContext(ModoDarkContext);
+
+  const handleModoDark = () => {
+    if (isModoOscuro) {
+      setIsModoOscuro(false)
+    } else {
+      setIsModoOscuro(true)
+    }
+  }
+
   return (
-    <nav>
-      {/* Aqui deberan agregar los liks correspondientes a las rutas definidas */}
-      {/* Deberan implementar ademas la logica para cambiar de Theme con el button */}
-      <button>Change theme</button>
+
+    <nav className={isModoOscuro ? "dark" : "app"}>
+      <div className='logo'>
+        <img src='./images/logo.png' />
+        <h2>SUPERODONTO</h2>
+      </div>
+
+      <div className='navi'>
+        <Link to="/home">Home</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="/favs">Favs</Link>
+        
+        <button onClick={handleModoDark}>
+          <Brightness4Icon className="imgperfil" alt="boton modo Dark" />
+        </button>
+       
+        <Link to={`/login`} >
+          <InputIcon className="imgvolver" alt="volver" />
+        </Link>
+      </div>
     </nav>
   )
 }
-
 export default Navbar
+
